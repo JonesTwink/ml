@@ -4,10 +4,11 @@ const inputSignals = [
     [0, -1, 1],
 ];
 
-const inputSignalWeights = [0.1, 0.2, 0.3];
+const amountOfInputs = 3;
 const tilt = 0.03;
 
-let neuron = new Neuron(tilt, inputSignalWeights);
+
+let neuron = new Neuron(tilt, amountOfInputs);
 
 for (let i = 0; i < inputSignals.length; i++){
     console.log(`Iteration #${i+1}`);

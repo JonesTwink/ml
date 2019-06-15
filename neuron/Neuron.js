@@ -1,5 +1,5 @@
-function Neuron(tilt, inputWeights) {
-    this.inputWeights = inputWeights;
+function Neuron(tilt, amountOfInputs) {
+    this.inputWeights = this.generateRandomWeights(amountOfInputs);
     this.tilt = tilt;
 }
 
@@ -19,4 +19,12 @@ Neuron.prototype.calculateSignalStrength = function (inputSignals, weights) {
 
 Neuron.prototype.calculateOutputSignal = function (inputSignalSumm) {
     return  1 / (1 + Math.pow(Math.E, -this.tilt * inputSignalSumm));
+};
+
+Neuron.prototype.generateRandomWeights = function (amountOfInputs) {
+    let inputWeights = [];
+    for (let i = 0; i < amountOfInputs; i++){
+        inputWeights.push(Math.random());
+    }
+    return inputWeights;
 };
