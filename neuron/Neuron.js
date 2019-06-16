@@ -1,6 +1,6 @@
-function Neuron(amountOfInputs) {
+function Neuron(amountOfInputs, tilt) {
     this.inputWeights = this.generateRandomWeights(amountOfInputs);
-    this.tilt = 0.03;
+    this.tilt = tilt;
 }
 
 Neuron.prototype.sendImpulse = function (inputSignals) {

@@ -26,11 +26,12 @@ NeuronLearning.prototype.shuffleSamples = function(samples){
 
 NeuronLearning.prototype.teachBySamples = function (neuron, learningSpeed) {
     this.samples.forEach(sample => {
-        const neuronOutput = neuron.sendImpulse(sample.inputValues);
+        const neuronOutput = neuron.sendImpulse(sample.inputValues.concat([1]));
         const delta = sample.expectedOutput - neuronOutput;
         for (let i = 0; i < sample.inputValues.length; i++){
             neuron.inputWeights[i] += learningSpeed * delta * sample.inputValues[i];
         }
+        neuron.inputWeights[sample.inputValues.length] += learningSpeed * delta;
     });
 };
 
@@ -47,7 +48,7 @@ NeuronLearning.prototype.runEpoch = function(neuron, cycleAmount, learningSpeed)
 };
 
 NeuronLearning.prototype.pointIsInLowerSide = function (neuron, coords){
-    let neuronOutput = neuron.sendImpulse(coords);
+    let neuronOutput = neuron.sendImpulse(coords.concat([1]));
     return Math.abs(neuronOutput - this.upWeight) > Math.abs(neuronOutput - this.downWeight);
 };
 
