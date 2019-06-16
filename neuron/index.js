@@ -1,19 +1,8 @@
-const inputSignals = [
-    [1, 3, 5],
-    [3, 3, 3],
-    [0, -1, 1],
-];
+let learningExample = new NeuronLearning(10, 10);
+const amountOfInputs = learningExample.samples[0].inputValues.length;
 
-const amountOfInputs = 3;
-const tilt = 0.03;
+let neuron = new Neuron(amountOfInputs);
 
+learningExample.runEpoch(neuron, 10000, 0.001);
+learningExample.testNeuronOnAllValues(neuron);
 
-let neuron = new Neuron(tilt, amountOfInputs);
-
-for (let i = 0; i < inputSignals.length; i++){
-    console.log(`Iteration #${i+1}`);
-    console.log('Inputs:');
-    console.log(inputSignals[i]);
-    console.log('Result:');
-    console.log(neuron.sendImpulse(inputSignals[i]))
-}
