@@ -46,22 +46,40 @@ NeuronLearning.prototype.runEpoch = function(neuron, cycleAmount, learningSpeed)
     console.log(neuron.inputWeights);
 };
 
-NeuronLearning.prototype.testNeuron = function (neuron, [x, y]){
-    let neuronOutput = neuron.sendImpulse([x, y]);
-    if (Math.abs(neuronOutput - this.upWeight) > Math.abs(neuronOutput - this.downWeight)){
-        console.log('Down')
-    }else{
-        console.log('Up');
-    }
-    console.log(neuronOutput);
+NeuronLearning.prototype.pointIsInLowerSide = function (neuron, coords){
+    let neuronOutput = neuron.sendImpulse(coords);
+    return Math.abs(neuronOutput - this.upWeight) > Math.abs(neuronOutput - this.downWeight);
 };
 
 NeuronLearning.prototype.testNeuronOnAllValues = function (neuron){
     for (let rowIndex = 0; rowIndex < this.dimensions.y; rowIndex++){
         for (let colIndex = 0; colIndex < this.dimensions.x; colIndex++){
-            console.log([rowIndex, colIndex]);
-            this.testNeuron(neuron, [colIndex, rowIndex]);
+            console.log([colIndex, rowIndex]);
+            const isLowerSide = this.pointIsInLowerSide(neuron, [colIndex, rowIndex]);
+            const answer = isLowerSide ? 'Lower' : 'Upper';
+            console.log(answer);
         }
 
     }
 };
+
+NeuronLearning.prototype.runVisualisedExample = function (neuron){
+    let matrixWrapper = document.createElement('div');
+    matrixWrapper.style.cssText = 'position: absolute; top: 0; bottom: 0; left: 0; right: 0; display: flex; align-items: center; justify-content: center;';
+    let matrix = document.createElement('div');
+    matrix.style.cssText = 'width: 600px; height: 600px; position: relative';
+    for (let rowIndex = 0; rowIndex < this.dimensions.y; rowIndex++){
+        for (let colIndex = 0; colIndex < this.dimensions.x; colIndex++){
+            let matrixPoint = document.createElement('div');
+            matrixPoint.style.cssText = `position: absolute; top: ${rowIndex * 60}px; left: ${colIndex * 60}px; width: 56px; height: 56px; border: 1px solid grey; display: inline-block; margin: 1px`;
+            matrixPoint.innerText = `[${colIndex}, ${rowIndex}]`;
+            const neuronResponse = this.pointIsInLowerSide(neuron, [colIndex, rowIndex]);
+            matrixPoint.style.backgroundColor = neuronResponse ? 'green' : 'red';
+            matrix.appendChild(matrixPoint);
+        }
+
+    }
+    matrixWrapper.appendChild(matrix);
+    document.body.appendChild(matrixWrapper);
+};
+
