@@ -1,7 +1,7 @@
 function NeuronLearning(xLength, yLength) {
     this.dimensions = {x: xLength, y: yLength};
     this.upWeight = 1;
-    this.downWeight = 0.5;
+    this.downWeight = 0;
     this.samples = this.generateSamples(this.dimensions.x, this.dimensions.y);
 }
 
@@ -13,15 +13,7 @@ NeuronLearning.prototype.generateSamples = function(xLength, yLength) {
             samples.push({inputValues: [colIndex, rowIndex], expectedOutput: coordinateWeight});
         }
     }
-    this.shuffleSamples(samples);
     return samples;
-};
-
-NeuronLearning.prototype.shuffleSamples = function(samples){
-    for (let i = samples.length - 1; i > 0; i--) {
-        let j = Math.floor(Math.random() * (i + 1));
-        [samples[i], samples[j]] = [samples[j], samples[i]];
-    }
 };
 
 NeuronLearning.prototype.teachBySamples = function (neuron, learningSpeed) {
@@ -60,7 +52,6 @@ NeuronLearning.prototype.testNeuronOnAllValues = function (neuron){
             const answer = isLowerSide ? 'Lower' : 'Upper';
             console.log(answer);
         }
-
     }
 };
 
