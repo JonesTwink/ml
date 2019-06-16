@@ -1,0 +1,48 @@
+#controls{
+    position: absolute;
+    z-index: 3;
+}
+
+.controls-row{
+    padding: 10px;
+}
+
+#fill-type{
+    margin-right: 10px;
+}
+
+#run-epoch{
+
+}
+
+#matrix-wrapper{
+    position: absolute;
+    top: 0; bottom: 0; left: 0; right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#matrix{
+    width: 600px;
+    height: 600px;
+    position: relative;
+}
+
+.matrix-point{
+    position: absolute;
+    width: 56px;
+    height: 56px;
+    border: 1px solid grey;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.matrix-point > div{
+    cursor: default;
+    color: red;
+    font-family: sans-serif;
+    font-size: 12px;
+}
+

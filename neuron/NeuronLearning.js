@@ -1,8 +1,9 @@
 function NeuronLearning(xLength, yLength) {
     this.dimensions = {x: xLength, y: yLength};
     this.upWeight = 1;
-    this.downWeight = 0;
+    this.downWeight = 0.1;
     this.samples = this.generateSamples(this.dimensions.x, this.dimensions.y);
+    this.drawEmptyExampleMatrix();
 }
 
 NeuronLearning.prototype.generateSamples = function(xLength, yLength) {
@@ -44,29 +45,33 @@ NeuronLearning.prototype.pointIsInLowerSide = function (neuron, coords){
     return Math.abs(neuronOutput - this.upWeight) > Math.abs(neuronOutput - this.downWeight);
 };
 
-NeuronLearning.prototype.testNeuronOnAllValues = function (neuron){
-    for (let rowIndex = 0; rowIndex < this.dimensions.y; rowIndex++){
-        for (let colIndex = 0; colIndex < this.dimensions.x; colIndex++){
-            console.log([colIndex, rowIndex]);
-            const isLowerSide = this.pointIsInLowerSide(neuron, [colIndex, rowIndex]);
-            const answer = isLowerSide ? 'Lower' : 'Upper';
-            console.log(answer);
+NeuronLearning.prototype.decorateMatrixByNeuron = function (neuron, solidFill){
+    let matrixPoints = document.body.getElementsByClassName('matrix-point');
+    for (let i = 0; i <matrixPoints.length; i++){
+        if (solidFill){
+            const neuronResponse = this.pointIsInLowerSide(neuron, [matrixPoints[i].getAttribute('x'), matrixPoints[i].getAttribute('y')]);
+            matrixPoints[i].style.backgroundColor = neuronResponse ? 'skyblue' : 'gold';
+        }else{
+            matrixPoints[i].style.backgroundColor = `rgba(0, 0, 0, ${neuron.sendImpulse([matrixPoints[i].getAttribute('x'), matrixPoints[i].getAttribute('y'), 1])})`;
         }
     }
 };
 
-NeuronLearning.prototype.runVisualisedExample = function (neuron){
+NeuronLearning.prototype.drawEmptyExampleMatrix = function (){
     let matrixWrapper = document.createElement('div');
-    matrixWrapper.style.cssText = 'position: absolute; top: 0; bottom: 0; left: 0; right: 0; display: flex; align-items: center; justify-content: center;';
+    matrixWrapper.id= 'matrix-wrapper';
     let matrix = document.createElement('div');
-    matrix.style.cssText = 'width: 600px; height: 600px; position: relative';
+    matrix.id = 'matrix';
     for (let rowIndex = 0; rowIndex < this.dimensions.y; rowIndex++){
         for (let colIndex = 0; colIndex < this.dimensions.x; colIndex++){
             let matrixPoint = document.createElement('div');
-            matrixPoint.style.cssText = `position: absolute; top: ${rowIndex * 60}px; left: ${colIndex * 60}px; width: 56px; height: 56px; border: 1px solid grey; display: inline-block; margin: 1px`;
-            matrixPoint.innerText = `[${colIndex}, ${rowIndex}]`;
-            const neuronResponse = this.pointIsInLowerSide(neuron, [colIndex, rowIndex]);
-            matrixPoint.style.backgroundColor = neuronResponse ? 'green' : 'red';
+            matrixPoint.className = 'matrix-point';
+            matrixPoint.setAttribute('x', colIndex);
+            matrixPoint.setAttribute('y', rowIndex);
+            matrixPoint.style.cssText = `top: ${rowIndex * 60}px; left: ${colIndex * 60}px;`;
+            const coordsText = document.createElement('div');
+            coordsText.textContent = `[${colIndex}, ${rowIndex}]`;
+            matrixPoint.appendChild(coordsText);
             matrix.appendChild(matrixPoint);
         }
 
