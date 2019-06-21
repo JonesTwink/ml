@@ -6,15 +6,27 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<div id="controls">
-    <div class="controls-row">
-        <label>Solid fill <input id="fill-type" type="checkbox"  checked/></label>
-        <button id="run-epoch">Run epoch</button>
+    <div id="controls">
+        <div class="controls-row">
+            <label class="input-wrapper">
+                <div>Amount of cycles per epoch</div>
+                <input type="number" id="cycle-amount" value="10000">
+            </label>
+            <label class="input-wrapper">
+                <div>Learning speed</div>
+                <input type="number" id="learning-speed" value="0.001">
+            </label>
+
+        </div>
+        <div class="controls-row">
+            <label>Solid fill <input id="fill-type" type="checkbox"  checked/></label>
+            <button id="run-epoch">Run epoch</button>
+        </div>
+
     </div>
-</div>
-<script src="Neuron.js"></script>
-<script src="NeuronLearning.js"></script>
-<script src="index.js"></script>
-<script src="event-handlers.js"></script>
+    <script src="Neuron.js"></script>
+    <script src="NeuronLearning.js"></script>
+    <script src="index.js"></script>
+    <script src="event-handlers.js"></script>
 </body>
 </html>
